@@ -57,13 +57,13 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="Chinese Content" />
+</noscript><meta property="og:title" content="Liang Qiao" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://qiaolian9.github.io/en/" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Chinese Content"/>
+<meta name="twitter:title" content="Liang Qiao"/>
 <meta name="twitter:description" content=""/>
 
 <script type="application/ld+json">
@@ -75,11 +75,15 @@
   "description": "",
   "thumbnailUrl": "https://qiaolian9.github.io/img/Q.gif",
   "sameAs": [
-      "https://github.com/qiaolian9", "", "img/wechat.jpg", "mailto:ql1an9@mail.ustc.edu.cn"
+      "https://github.com/qiaolian9", "../img/qq.jpg", "../img/wechat.jpg", "mailto:ql1an9@mail.ustc.edu.cn"
   ]
 }
 </script>
 </head>
+
+<link href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/monokai.min.css" rel="stylesheet">
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
 
 <body class="list" id="top">
 <script>
@@ -96,7 +100,7 @@
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://qiaolian9.github.io/en/" accesskey="h" title="Liang&#39;s Blog (Alt + H)">Liang&#39;s Blog</a>
+            <a href="https://qiaolian9.github.io/en/" accesskey="h" title="Liang Qiao (Alt + H)">Liang Qiao</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -122,18 +126,23 @@
         </div>
         <ul id="menu">
             <li>
-                <a href="https://qiaolian9.github.io/en/search" title="🔍Search (Alt &#43; /)" accesskey=/>
-                    <span>🔍Search</span>
+                <a href="https://qiaolian9.github.io/en/" title="Home">
+                    <span class="active">Home</span>
                 </a>
             </li>
             <li>
-                <a href="https://qiaolian9.github.io/en/" title="🏠Home">
-                    <span class="active">🏠Home</span>
+                <a href="https://qiaolian9.github.io/en/search" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
                 </a>
             </li>
             <li>
-                <a href="https://qiaolian9.github.io/en/posts" title="📔Blog">
-                    <span>📔Blog</span>
+                <a href="https://qiaolian9.github.io/en/posts" title="blog">
+                    <span>blog</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://qiaolian9.github.io/en/about" title="About">
+                    <span>About</span>
                 </a>
             </li>
         </ul>
@@ -143,7 +152,7 @@
     <div class="profile_inner">
         <img draggable="false" src="https://qiaolian9.github.io/img/huayecai.jpg" alt="profile image" title=""
             height="150" width="150" />
-        <h1>Hello World</h1>
+        <h1>Liang <br/> Only for U</h1>
         <span></span><div class="social-icons">
     <a href="https://github.com/qiaolian9" target="_blank" rel="noopener noreferrer me" title="Github">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -153,7 +162,7 @@
     </path>
 </svg>
     </a>
-    <a href="" target="_blank" rel="noopener noreferrer me" title="QQ">
+    <a href="../img/qq.jpg" target="_blank" rel="noopener noreferrer me" title="QQ">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
     stroke-linecap="round" stroke-linejoin="round">
     <path transform="scale(0.04) translate(75 40)" stroke-width="50"
@@ -161,7 +170,7 @@
     </path>
 </svg>
     </a>
-    <a href="img/wechat.jpg" target="_blank" rel="noopener noreferrer me" title="WeChat">
+    <a href="../img/wechat.jpg" target="_blank" rel="noopener noreferrer me" title="WeChat">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
     stroke-linecap="round" stroke-linejoin="round">
     <path d="M17 10C20.3142 10 23 12.2165 23 14.95C23 16.4867 22.1513 17.8595 20.8182 18.767V21L18.6756 19.7042C18.1265 19.835 17.5642 19.9007 17 19.9C13.6858 19.9 11 17.6835 11 14.95C11 12.2165 13.6858 10 17 10Z"/>
@@ -178,19 +187,24 @@
 </div>
 
         <div class="buttons">
-            <a class="button" href="/en/posts/tech" rel="noopener" title="👨🏻‍💻Tech">
+            <a class="button" href="/en/about" rel="noopener" title="About">
                 <span class="button-inner">
-                    👨🏻‍💻Tech
+                    About
                 </span>
             </a>
-            <a class="button" href="/en/posts/readandblog" rel="noopener" title="📕Reading&amp;Blog">
+            <a class="button" href="/en/posts/tech" rel="noopener" title="Projects">
                 <span class="button-inner">
-                    📕Reading&amp;Blog
+                    Projects
                 </span>
             </a>
-            <a class="button" href="/en/posts/life" rel="noopener" title="🏖Life">
+            <a class="button" href="/en/posts/learning" rel="noopener" title="Learn">
                 <span class="button-inner">
-                    🏖Life
+                    Learn
+                </span>
+            </a>
+            <a class="button" href="/en/posts/life" rel="noopener" title="Life">
+                <span class="button-inner">
+                    Life
                 </span>
             </a>
         </div>
