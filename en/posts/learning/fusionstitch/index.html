@@ -272,7 +272,7 @@
 <p>intra-warp reuse &mdash;&gt; each warp does reduction for a row of data and stores result in the register of the first lane of the warp. Consumers of the reduction read data with registershuffle from the first lane.</p>
 <p>intra-block reuse &mdash;&gt;Intra-block reuse does reduction for the row with all threads in the block and stores results in shared memory. Consumers of the reduction read data from shared memory</p>
 <h3 id="32-fusionstitching-system">3.2 FusionStitching System<a hidden class="anchor" aria-hidden="true" href="#32-fusionstitching-system">#</a></h3>
-<p><img loading="lazy" src="https://github.com/qiaolian9/qiaolian9.github.io/tree/master/en/posts/learning/FusionStitch/overview.png" alt="image.png"  />
+<p><img loading="lazy" src="overview.png" alt="image.png"  />
 </p>
 <p>Key:  fusion explorer &amp; code generator</p>
 <p>1Fusion explorer: possible fusion patterns that may enjoy data reuse &amp; beam search candidate fusiong plans &amp; selects the best fusion plan from candidate plans with a cost model.</p>
@@ -284,7 +284,7 @@
 <p>key Component: 4 kernel composition schemes &amp; performace modeling &amp; kernel gen</p>
 <p>4.1 Kernel Composition Schemes</p>
 <p>four kernel composition schemes indicate main behaviors of common memory intensive ops</p>
-<p><img loading="lazy" src="./FusionStitch/kernel.png" alt="image.png"  />
+<p><img loading="lazy" src="kernel.png" alt="image.png"  />
 </p>
 <p>1Kernel Packing: reducing context switch overhead of kernel launch and framework scheduling  &amp; reduces loop control overheads(aggressive loop fusion&mdash;&gt;thread conflict?);</p>
 <p>2Thread Composition: fuses dependent ops and transfer intermediate results via registers within a local thread context;</p>
@@ -295,7 +295,7 @@
 <p>2We do not stitch ops that involves inter-block communications as it results in global memory level synchronization and introduces high overhead.</p>
 <p>4.2  kernel gen&mdash;&gt; to do</p>
 <p>4.3 Kernel Evaluation:  Latency-Evaluator</p>
-<p><img loading="lazy" src="./FusionStitch/latency.png" alt="image.png"  />
+<p><img loading="lazy" src="latency.png" alt="image.png"  />
 </p>
 <p>4.4 shared memory optimization</p>
 <p>To use as much shared memory as possible while not hurting parallelism, we explore a dataflow based shared memory sharing technique. &mdash;&gt; more parallelism &amp; more op in kernel</p>
@@ -308,11 +308,11 @@
 <p><em>i</em>=1∑<em>k**f</em>(<em>P**i</em>)</p>
 <p>5.2 Explore Fusion Pattern(*)</p>
 <p>Key: recursion &amp; candidate-patterns &amp; group partition &amp; approximate DP process</p>
-<p><img loading="lazy" src="./FusionStitch/fusionpattern.png" alt="image.png"  />
+<p><img loading="lazy" src="fusionpattern.png" alt="image.png"  />
 </p>
 <p>Pattern Reduction:</p>
 <p>an approximate divide-and-conquer process to find top 3 patterns with limited complexity as PatternReduction.</p>
-<p><img loading="lazy" src="./FusionStitch/patternreduction.png" alt="image.png"  />
+<p><img loading="lazy" src="patternreduction.png" alt="image.png"  />
 </p>
 <p>Remote Fusion: try to merge fusion patterns that are not adjacent in the graph after above procedures  Constraint: no cyclic dependence &amp; explores fusion patterns that the code generator can proces;</p>
 <p>5.3 Generate Overall Fusion Plan(*)</p>
@@ -320,7 +320,7 @@
 <p>5.4 Fusion Ecaluation: Delta-Evaluator(*)</p>
 <p>delta-evaluator to form the score function f &mdash;&gt; (for 5.2 fusion pattern)</p>
 <p>Key: reduced memory access latency &amp; reduced CPU-GPU context switch overhead &amp; and performance penalty of kernel fusion.</p>
-<p><img loading="lazy" src="./FusionStitch/key.png" alt="image.png"  />
+<p><img loading="lazy" src="key.png" alt="image.png"  />
 </p>
 <p>1reduced memory: the amount of memory traffics &amp; the change of memory type to store the intermediate values;</p>
 <p>2reduced call: the num of kernels &amp; context switch time;</p>
