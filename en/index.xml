@@ -6,7 +6,7 @@
     <description>Recent content on Liang Qiao</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 31 Oct 2023 00:43:47 +0800</lastBuildDate><atom:link href="https://qiaolian9.github.io/en/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 31 Oct 2023 01:28:56 +0800</lastBuildDate><atom:link href="https://qiaolian9.github.io/en/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Ansor</title>
       <link>https://qiaolian9.github.io/en/posts/learning/ansor/</link>
@@ -14,6 +14,15 @@
       
       <guid>https://qiaolian9.github.io/en/posts/learning/ansor/</guid>
       <description>Ansor</description>
+    </item>
+    
+    <item>
+      <title>projects</title>
+      <link>https://qiaolian9.github.io/en/posts/tech/projects/</link>
+      <pubDate>Tue, 31 Oct 2023 01:28:56 +0800</pubDate>
+      
+      <guid>https://qiaolian9.github.io/en/posts/tech/projects/</guid>
+      <description>Torch2Tensor 2023.3~2023.5 Torch nn.Module -&amp;gt; TVM Tensor program Github: https://github.com/qiaolian9/Torch2Tensor A easy tool for generating Tensor Program from Torch(besd on Torch FX &amp;amp; TVM Relax) FcTC-UNet 2021.11~2022.2 Fine-grained Combination of Transformer and CNN for Thoracic Organs Segmentation (accepted in EMBC22) URL: https://ieeexplore.ieee.org/abstract/document/9870880 PI-CAI 2022 Challenge URL: http://rumc-gcorg-p-public.s3.amazonaws.com/evaluation-supplementary/642/3057dc31-3a85-480f-8c6b-0da7d1327c48/Swangeese.pdf Github: https://github.com/Yukiya-Umimi/ITUNet-for-PICAI-2022-Challenge</description>
     </item>
     
     <item>
