@@ -6,7 +6,7 @@
     <description>Recent content on Liang Qiao</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 31 Oct 2023 01:28:56 +0800</lastBuildDate><atom:link href="https://qiaolian9.github.io/en/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 12 Nov 2023 00:43:13 +0800</lastBuildDate><atom:link href="https://qiaolian9.github.io/en/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Ansor</title>
       <link>https://qiaolian9.github.io/en/posts/learning/ansor/</link>
@@ -14,6 +14,15 @@
       
       <guid>https://qiaolian9.github.io/en/posts/learning/ansor/</guid>
       <description>Ansor</description>
+    </item>
+    
+    <item>
+      <title>Roller</title>
+      <link>https://qiaolian9.github.io/en/posts/learning/roller/</link>
+      <pubDate>Sun, 12 Nov 2023 00:43:13 +0800</pubDate>
+      
+      <guid>https://qiaolian9.github.io/en/posts/learning/roller/</guid>
+      <description>Fast and Efficient Tensor Compilation for Deep Learning</description>
     </item>
     
     <item>
@@ -27,46 +36,37 @@
     
     <item>
       <title>Astitch</title>
-      <link>https://qiaolian9.github.io/en/posts/learning/astitch/</link>
+      <link>https://qiaolian9.github.io/en/posts/learning/tbd/astitch/</link>
       <pubDate>Tue, 31 Oct 2023 00:43:47 +0800</pubDate>
       
-      <guid>https://qiaolian9.github.io/en/posts/learning/astitch/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Roller</title>
-      <link>https://qiaolian9.github.io/en/posts/learning/roller/</link>
-      <pubDate>Tue, 31 Oct 2023 00:43:13 +0800</pubDate>
-      
-      <guid>https://qiaolian9.github.io/en/posts/learning/roller/</guid>
+      <guid>https://qiaolian9.github.io/en/posts/learning/tbd/astitch/</guid>
       <description></description>
     </item>
     
     <item>
       <title>SwTVM</title>
-      <link>https://qiaolian9.github.io/en/posts/learning/swtvm/</link>
+      <link>https://qiaolian9.github.io/en/posts/learning/tbd/swtvm/</link>
       <pubDate>Tue, 31 Oct 2023 00:43:08 +0800</pubDate>
       
-      <guid>https://qiaolian9.github.io/en/posts/learning/swtvm/</guid>
+      <guid>https://qiaolian9.github.io/en/posts/learning/tbd/swtvm/</guid>
       <description></description>
     </item>
     
     <item>
       <title>TLP</title>
-      <link>https://qiaolian9.github.io/en/posts/learning/tlp/</link>
+      <link>https://qiaolian9.github.io/en/posts/learning/tbd/tlp/</link>
       <pubDate>Tue, 31 Oct 2023 00:43:00 +0800</pubDate>
       
-      <guid>https://qiaolian9.github.io/en/posts/learning/tlp/</guid>
+      <guid>https://qiaolian9.github.io/en/posts/learning/tbd/tlp/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Tenset</title>
-      <link>https://qiaolian9.github.io/en/posts/learning/tenset/</link>
+      <link>https://qiaolian9.github.io/en/posts/learning/tbd/tenset/</link>
       <pubDate>Tue, 31 Oct 2023 00:42:56 +0800</pubDate>
       
-      <guid>https://qiaolian9.github.io/en/posts/learning/tenset/</guid>
+      <guid>https://qiaolian9.github.io/en/posts/learning/tbd/tenset/</guid>
       <description></description>
     </item>
     
