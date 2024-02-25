@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>AICompiler on Brocoli&#39;s Blog</title>
+    <link>http://qiaolian9.github.io/tags/aicompiler/</link>
+    <description>Recent content in AICompiler on Brocoli&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 04 Dec 2023 23:52:23 +0800</lastBuildDate><atom:link href="http://qiaolian9.github.io/tags/aicompiler/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AICompiler</title>
+      <link>http://qiaolian9.github.io/posts/project/aicompiler/</link>
+      <pubDate>Mon, 04 Dec 2023 23:52:23 +0800</pubDate>
+      
+      <guid>http://qiaolian9.github.io/posts/project/aicompiler/</guid>
+      <description>Torch2Tensor 2023.3~2023.5 Torch nn.Module -&amp;gt; TVM Tensor program Github: https://github.com/qiaolian9/Torch2Tensor A easy tool for generating Tensor Program from Torch(besd on Torch FX &amp;amp; TVM Relax) Pruner 2023.5~2024.1 Key: Deep Learning Compiler, Tensor Optimization Pruner: An Efficient Cross-Platform Tensor Compiler with Dual Awareness URL:https://arxiv.org/abs/2402.02361 Github: https://github.com/qiaolian9/Pruner Tensor program optimization on Deep Learning Accelerators (DLAs) is critical for efficient model deployment. Although search-based Deep Learning Compilers (DLCs) have achieved significant performance gains compared to manual methods, they still suffer from the persistent challenges of low search efficiency and poor cross-platform adaptability. In this paper, we propose Pruner, following hardware/software co-design principles to hierarchically boost tensor program optimization. Pruner comprises two primary components: a Parameterized Static Analyzer (PSA) and a Pattern-aware Cost Model (PaCM). The former serves as a hardware-aware and formulaic performance analysis tool, guiding the pruning of the search space, while</description>
+    </item>
+    
+    <item>
+      <title>Ansor</title>
+      <link>http://qiaolian9.github.io/posts/learnblog/ansor/</link>
+      <pubDate>Thu, 26 Oct 2023 23:48:33 +0800</pubDate>
+      
+      <guid>http://qiaolian9.github.io/posts/learnblog/ansor/</guid>
+      <description>Ansor AnsorCodeView</description>
+    </item>
+    
+    <item>
+      <title>Roller</title>
+      <link>http://qiaolian9.github.io/posts/learnblog/roller/</link>
+      <pubDate>Sun, 12 Nov 2023 00:43:13 +0800</pubDate>
+      
+      <guid>http://qiaolian9.github.io/posts/learnblog/roller/</guid>
+      <description>Roller key: rTile, rProgram Ch1.Intro: 通用AI编译：buffer+loop+compute &amp;mdash;&amp;gt; Roller: tile data pipeline 数据块(Tile)在并行执行单元(GPU SM) &amp;amp; 内存层次结构(global/shared memory &amp;amp; register)上的移动和处理。 Note: 高效Kernel &amp;mdash;&amp;gt; 提高数据流水线吞吐量目标 数据块流水线吞吐量最大化。 Note: tile shape align &amp;mdash;&amp;gt; memory bank &amp;amp;</description>
+    </item>
+    
+    <item>
+      <title>Fusionstitch</title>
+      <link>http://qiaolian9.github.io/posts/learnblog/fusionstitch/</link>
+      <pubDate>Sun, 05 Nov 2023 00:16:50 +0800</pubDate>
+      
+      <guid>http://qiaolian9.github.io/posts/learnblog/fusionstitch/</guid>
+      <description>FusionStitch Key: Fusion Pattern(Fusion Plan); Memory Intensive 2.Motivation and Challenge 2.1 Motivation &amp;amp; Observation 1.As the state-ofthe-art fusion engine, XLA only supports thread-local data transferring for fusion, which relies on index analyzing and recomputation to improve thread locality. A bad case is to put a reduction in the middle of a fusion pattern.(eg. reduce op &amp;mdash;&amp;gt; redundantly computation, thus XLA &amp;amp; TVM skip those op) 2.Severe Context Switch Overhead &amp;amp; Large Portion of Memory-intensive Ops 2.2 Challenges As for applying reuse for a given fusion pattern to generate kernel: 1how to evaluate reuse benefit. 2how to apply reuse. There are two types of data reuse: intra-warp reuse and intra-block reuse. For a given machine learning model: 1to decide what ops should be fused together. Main problem: 1forming a fusion pattern by data reuse is not always better than separate kernels.(reuse</description>
+    </item>
+    
+  </channel>
+</rss>

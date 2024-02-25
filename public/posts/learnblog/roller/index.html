@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Roller | Brocoli&#39;s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="Roller key: rTile, rProgram Ch1.Intro: 通用AI编译：buffer&#43;loop&#43;compute &mdash;&gt; Roller: tile data pipeline 数据块(Tile)在并行执行单元(GPU SM) &amp; 内存层次结构(global/shared memory &amp; register)上的移动和处理。 Note: 高效Kernel &mdash;&gt; 提高数据流水线吞吐量目标 数据块流水线吞吐量最大化。 Note: tile shape align &mdash;&gt; memory bank &amp;">
+<meta name="author" content="Brocoli">
+<link rel="canonical" href="http://qiaolian9.github.io/posts/learnblog/roller/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.js" onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://qiaolian9.github.io/img/huayecai.jpg">
+<link rel="icon" type="image/png" sizes="16x16" href="http://qiaolian9.github.io/img/huayecai.jpg">
+<link rel="icon" type="image/png" sizes="32x32" href="http://qiaolian9.github.io/img/huayecai.jpg">
+<link rel="apple-touch-icon" href="http://qiaolian9.github.io/img/huayecai.jpg">
+<link rel="mask-icon" href="http://qiaolian9.github.io/img/huayecai.jpg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en-us" href="http://qiaolian9.github.io/posts/learnblog/roller/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+<script defer src="https://unpkg.com/mermaid@8.8.1/dist/mermaid.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.min.js"></script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = ""; 
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<meta property="og:title" content="Roller" />
+<meta property="og:description" content="Roller key: rTile, rProgram Ch1.Intro: 通用AI编译：buffer&#43;loop&#43;compute &mdash;&gt; Roller: tile data pipeline 数据块(Tile)在并行执行单元(GPU SM) &amp; 内存层次结构(global/shared memory &amp; register)上的移动和处理。 Note: 高效Kernel &mdash;&gt; 提高数据流水线吞吐量目标 数据块流水线吞吐量最大化。 Note: tile shape align &mdash;&gt; memory bank &amp;" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://qiaolian9.github.io/posts/learnblog/roller/" />
+<meta property="og:image" content="http://qiaolian9.github.io/posts/learnblog/roller/posts/learnblog/roller/system.png" /><meta property="article:section" content="posts" />
+
+<meta property="article:modified_time" content="2023-11-12T00:43:13+08:00" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="http://qiaolian9.github.io/posts/learnblog/roller/posts/learnblog/roller/system.png" />
+<meta name="twitter:title" content="Roller"/>
+<meta name="twitter:description" content="Roller key: rTile, rProgram Ch1.Intro: 通用AI编译：buffer&#43;loop&#43;compute &mdash;&gt; Roller: tile data pipeline 数据块(Tile)在并行执行单元(GPU SM) &amp; 内存层次结构(global/shared memory &amp; register)上的移动和处理。 Note: 高效Kernel &mdash;&gt; 提高数据流水线吞吐量目标 数据块流水线吞吐量最大化。 Note: tile shape align &mdash;&gt; memory bank &amp;"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+
+        {
+          "@type": "ListItem",
+          "position":  1 ,
+          "name": "Blog",
+          "item": "http://qiaolian9.github.io/posts/"
+        },
+
+        {
+          "@type": "ListItem",
+          "position":  2 ,
+          "name": "Learn",
+          "item": "http://qiaolian9.github.io/posts/learnblog/"
+        }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Roller",
+      "item": "http://qiaolian9.github.io/posts/learnblog/roller/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Roller",
+  "name": "Roller",
+  "description": "Roller key: rTile, rProgram Ch1.Intro: 通用AI编译：buffer+loop+compute \u0026mdash;\u0026gt; Roller: tile data pipeline 数据块(Tile)在并行执行单元(GPU SM) \u0026amp; 内存层次结构(global/shared memory \u0026amp; register)上的移动和处理。 Note: 高效Kernel \u0026mdash;\u0026gt; 提高数据流水线吞吐量目标 数据块流水线吞吐量最大化。 Note: tile shape align \u0026mdash;\u0026gt; memory bank \u0026amp;",
+  "keywords": [
+    ""
+  ],
+  "articleBody": "Roller key: rTile, rProgram\nCh1.Intro: 通用AI编译：buffer+loop+compute —\u003e Roller: tile data pipeline\n数据块(Tile)在并行执行单元(GPU SM) \u0026 内存层次结构(global/shared memory \u0026 register)上的移动和处理。 Note: 高效Kernel —\u003e 提高数据流水线吞吐量目标\n数据块流水线吞吐量最大化。 Note: tile shape align —\u003e memory bank \u0026 memory transaction length \u0026 minimum schedulable unit(warp size in GPU)\nresult: 通过约束tile shape align，每一级内存都有很好的计算效率，同时约束可行tile搜索空间。\nrTile —\u003e rProgram: rTile pipeline性能预测容易实现。 Roller:\n\u003c1\u003e.rTile: tile shape(align with hardware) \u0026 tensor shape\n\u003c2\u003e.rProgram(data processing pipeline): (based on rTile) Load \u0026 Store \u0026 Compute —\u003e rTile\n\u003c3\u003e.scale-up-then-scale-out approach（纵扩 \u0026 横扩）:\nscale-up —\u003e 基于rTile递归构造方法，增大tile shape大小，使得单个计算单元达到饱和状态(?)的rProgram(纵扩)；\nscale-out —\u003e 基于DNN计算模式 \u0026 加速器并行执行单元同质性，将rProgram复制到其他执行单元（横扩）。\nConclusion:\nrTile严格对齐，rProgram性能容易评估 —\u003e 峰值性能 \u0026 带宽（每种算子测试单次即可） + 关键性能指标（memory pressure）直接由硬件得出即可\nCh2.Motivation \u0026 Key Observations Excessive compilation time: AI编译器耗时长 Observation and insights: buffer + loop + computation —\u003e data process pipeline(load A \u0026 B, then compute C) —\u003e performance(the throughput of load-compute-store pipeline) key: tile shape \u0026 layout in the one-dimension memory space\nCh3.System Design 3.1 Tensor Expression and rTile rTile封装了：TE + 每个轴的Tile shape + padding inf —\u003e 静态推断出输入、输出shape\nnote: tile shape(逻辑形式) \u0026 storage padding(物理布局) —\u003e 严格对齐底层硬件特征与Tensor Shape\nAlignment with the hardware execution unit: tile shape 必须与硬件执行单元的并行度对齐（eg. GPU warp size 32*）\nAlignment with memory transaction: tile shape必须与内存事务长度保存一致，实现最优访存（eg. 行优先Tensor最内层shape是内存事务的倍数）\nAlignment with memory bank: 避免GPU memory bank conflict $$ padding_size = (BL-N%(BL)+L\\lceil{n/L}\\rceil)%(BL) $$\nAlignment with tensor shape: rTile shape应与输入的Tensor对齐，避免边界检查开销（避免较大的padding浪费计算，满足$\\frac{S_i-N_i%S_i}{N_i} \u003c= \\epsilon$时，进行padding）\nDeriving All rTiles: calculating data reuse score: 更大的Si代表相同内存占用获得更大的内存流量。\n3.2 Tensor Program Construction rTile program: Tensor Expression —\u003e hierarchy rTile data pipeline 每个内存级别定义特定的rTile \u0026 与该级别内存特性保持一致\nkey: optimizer rProgram —\u003e max pipeline throughput(scale-up-then-scale-out)\n\u003c1\u003ethe computation and memory movement should fully leverage the hardware features;\u003c2\u003ethe computation and memory movement should fully leverage the hardware features;\u003c3\u003ethere needs to be sufficient parallelism to leverage all the parallel execution units.\nScaling up an rProgram Roller专注构建正确的rTile shape最大化每级内存的吞吐量，依据数据重用分数。\nScaling out an rProgram（复制横扩）\nSmall operator and irregular tensor shape\n3.3 Efficient Evaluation of an rProgram key: rProgram性能 —\u003e rTile性能(MemPerf \u0026 MaxComputePerf \u0026 etc.)\nHAL: Load, Store, Compute, getDeviceSpec, etc. Micro performance model: 借助硬件抽象层，Roller可以轻松推导出rTile（和rProgram）的性能\nCh4. Implementation Code generation：原语基于TVM\nTensor Padding：\u003c1\u003eapply padding in the upper layer memory(3.1.4);\u003c2\u003estorage padding基于TVM storage align原语(3.1.3)\nPerformance Profiling\na.\tmicro performance profiler(off-line): micro-benchmark生成内存带宽，计算吞吐量等硬件指标\nb.\tkernel profiler(on-line) :profiles the fastest kernels among the top K rPrograms and is used for each compilation result if the K is larger than 1\nConclusion kernel计算—\u003e 数据移动data pipeline（rTile效率 —\u003e rProgram效率）(Note: rTile严格对齐) 性能评价简单，更多基于硬件特性直接得出，无需复杂代价模型 schedule扩展：横扩 \u0026 纵扩 ",
+  "wordCount" : "1320",
+  "inLanguage": "en-us",
+  "image":"http://qiaolian9.github.io/posts/learnblog/roller/posts/learnblog/roller/system.png","datePublished": "0001-01-01T00:00:00Z",
+  "dateModified": "2023-11-12T00:43:13+08:00",
+  "author":[{
+    "@type": "Person",
+    "name": "Brocoli"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://qiaolian9.github.io/posts/learnblog/roller/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Brocoli's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://qiaolian9.github.io/img/huayecai.jpg"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    (function () {
+        let  arr,reg = new RegExp("(^| )"+"change-themes"+"=([^;]*)(;|$)");
+        if(arr = document.cookie.match(reg)) {
+        } else {
+            if (new Date().getHours() >= 19 || new Date().getHours() < 6) {
+                document.body.classList.add('dark');
+                localStorage.setItem("pref-theme", 'dark');
+            } else {
+                document.body.classList.remove('dark');
+                localStorage.setItem("pref-theme", 'light');
+            }
+        }
+    })()
+
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://qiaolian9.github.io/" accesskey="h" title="Brocoli&#39;s Blog (Alt + H)">
+            <img src="http://qiaolian9.github.io/img/huayecai.jpg" alt="logo" aria-label="logo"
+                 height="35">Brocoli&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                         stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                         stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://qiaolian9.github.io/search" title="Search (Alt &#43; /)" accesskey=/>
+                <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://qiaolian9.github.io/" title="Home">
+                <span>Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://qiaolian9.github.io/posts" title="Posts">
+                <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://qiaolian9.github.io/tags" title="Tags">
+                <span>Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://qiaolian9.github.io/archives/" title="Archives">
+                <span>Archives</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://qiaolian9.github.io/about" title="Me">
+                <span>Me</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main page">
+<style>
+    i[id*="post_meta_style"] {
+        display: flex;
+        align-items: center;
+        margin: 0 0 10px 0;
+    }
+</style>
+
+<article class="post-single">
+    <div id="single-content">
+        <header class="post-header">
+            <div class="breadcrumbs"><a href="http://qiaolian9.github.io/"> Home</a>&nbsp;»&nbsp;<a href="http://qiaolian9.github.io/posts/">Blog</a>&nbsp;»&nbsp;<a href="http://qiaolian9.github.io/posts/learnblog/">Learn</a></div>
+            <h1 class="post-title">
+                Roller
+            </h1>
+            <div class="post-meta">
+
+<style>
+    i[id*="post_meta_style"] {
+        display: flex;
+        align-items: center;
+        margin: 0 0 10px 0;
+    }
+
+    .parent-post-meta {
+        display: flex;
+        flex-wrap: wrap;
+        opacity: 0.8;
+    }
+</style>
+
+<span class="parent-post-meta">
+    <span id="post_meta_style_1">
+        <span class="fa fa-calendar-check-o"></span>
+        <span>2023-11-12
+            &nbsp;&nbsp;
+        </span>
+    </span>
+    
+    
+    
+    
+    
+    
+    
+    <span id="post_meta_style_3">
+        <span class="fa fa-file-word-o"></span>
+        <span>1320words
+            &nbsp;&nbsp;
+        </span>
+    </span>
+    <span id="post_meta_style_4">
+        <span class="fa fa-clock-o"></span>
+        <span>3mins
+            &nbsp;&nbsp;
+        </span>
+    </span>
+    <span id="post_meta_style_5">
+        <span class="fa fa-user-o"></span>
+        <span>Brocoli
+            &nbsp;&nbsp;
+        </span>
+    </span>
+    <span id="post_meta_style_6">
+        <span class="fa fa-tags" style="opacity: 0.8"></span>
+        <span>
+            <span class="post-tags-meta">
+                <a href="http://qiaolian9.github.io/tags/aicompiler/" style="color: var(--secondary)!important;">AICompiler</a>
+            </span>
+        </span>
+    </span>
+</span>
+
+
+</div>
+        </header> 
+<figure class="entry-cover1"><img style="zoom:100%;" loading="lazy" src="http://qiaolian9.github.io/posts/learnblog/roller/system.png" alt="">
+    
+</figure><aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#rollerhttpswwwusenixorgconferenceosdi22presentationzhu" aria-label="Roller"><a href="https://www.usenix.org/conference/osdi22/presentation/zhu">Roller</a></a><ul>
+                        
+                <li>
+                    <a href="#ch1intro" aria-label="Ch1.Intro:">Ch1.Intro:</a></li>
+                <li>
+                    <a href="#ch2motivation--key-observations" aria-label="Ch2.Motivation &amp;amp; Key Observations">Ch2.Motivation &amp; Key Observations</a></li>
+                <li>
+                    <a href="#ch3system-design" aria-label="Ch3.System Design">Ch3.System Design</a><ul>
+                        
+                <li>
+                    <a href="#31-tensor-expression-and-rtile" aria-label="3.1 Tensor Expression and rTile">3.1 Tensor Expression and rTile</a></li>
+                <li>
+                    <a href="#32-tensor-program-construction" aria-label="3.2 Tensor Program Construction">3.2 Tensor Program Construction</a></li>
+                <li>
+                    <a href="#33-efficient-evaluation-of-an-rprogram" aria-label="3.3 Efficient Evaluation of an rProgram">3.3 Efficient Evaluation of an rProgram</a></li></ul>
+                </li>
+                <li>
+                    <a href="#ch4-implementation" aria-label="Ch4. Implementation">Ch4. Implementation</a></li>
+                <li>
+                    <a href="#conclusion" aria-label="Conclusion">Conclusion</a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+        
+        activeElement = elements[0];
+        const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+        document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+    }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        if (elements) {
+            activeElement = Array.from(elements).find((element) => {
+                if ((getOffsetTop(element) - window.pageYOffset) > 0 &&
+                    (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                    return element;
+                }
+            }) || activeElement
+
+            elements.forEach(element => {
+                const id = encodeURI(element.getAttribute('id')).toLowerCase();
+                if (element === activeElement){
+                    document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+                } else {
+                    document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+                }
+            })
+        }
+    }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;
+    }
+</script>
+        <div class="post-content"><h1 id="rollerhttpswwwusenixorgconferenceosdi22presentationzhu"><a href="https://www.usenix.org/conference/osdi22/presentation/zhu">Roller</a><a hidden class="anchor" aria-hidden="true" href="#rollerhttpswwwusenixorgconferenceosdi22presentationzhu">#</a></h1>
+<p><strong>key: rTile, rProgram</strong></p>
+<h2 id="ch1intro">Ch1.Intro:<a hidden class="anchor" aria-hidden="true" href="#ch1intro">#</a></h2>
+<p>通用AI编译：buffer+<strong>loop</strong>+compute &mdash;&gt; Roller: <strong>tile data pipeline</strong></p>
+<ol>
+<li>数据块(Tile)在并行执行单元(GPU SM) &amp; 内存层次结构(global/shared memory &amp; register)上的移动和处理。</li>
+</ol>
+<p><strong>Note:</strong> 高效Kernel &mdash;&gt; 提高数据流水线吞吐量目标</p>
+<p><img loading="lazy" src="roller.png" alt="img"  />
+</p>
+<ol>
+<li>数据块流水线吞吐量最大化。</li>
+</ol>
+<p><strong>Note:</strong> tile shape align &mdash;&gt; memory bank &amp; memory transaction length &amp; minimum schedulable unit(warp size in GPU)</p>
+<p><strong>result:</strong> 通过约束tile shape align，每一级内存都有很好的计算效率，同时约束可行tile搜索空间。</p>
+<p><img loading="lazy" src="roller2.png" alt="img"  />
+</p>
+<ol>
+<li>rTile &mdash;&gt; rProgram: rTile pipeline性能预测容易实现。</li>
+</ol>
+<p><img loading="lazy" src="rTile.png" alt="img"  />
+</p>
+<p><strong>Roller:</strong></p>
+<p><strong>&lt;1&gt;.rTile:</strong> tile shape(align with hardware) &amp; tensor shape</p>
+<p><strong>&lt;2&gt;.rProgram(data processing pipeline):</strong> (based on rTile) Load &amp; Store &amp; Compute &mdash;&gt; rTile</p>
+<p><strong>&lt;3&gt;.scale-up-then-scale-out approach（纵扩 &amp; 横扩）:</strong></p>
+<p>scale-up &mdash;&gt; 基于<strong>rTile递归构造方法</strong>，增大tile shape大小，使得单个计算单元达到饱和状态(?)的rProgram(纵扩)；</p>
+<p>scale-out &mdash;&gt; 基于DNN计算模式 &amp; 加速器并行执行单元同质性，将rProgram复制到其他执行单元（横扩）。</p>
+<p><strong>Conclusion:</strong></p>
+<p><strong>rTile严格对齐，rProgram性能容易评估</strong> &mdash;&gt; 峰值性能 &amp; 带宽（每种算子测试单次即可） +  关键性能指标（memory pressure）直接由硬件得出即可</p>
+<h2 id="ch2motivation--key-observations">Ch2.Motivation &amp; Key Observations<a hidden class="anchor" aria-hidden="true" href="#ch2motivation--key-observations">#</a></h2>
+<ol>
+<li>Excessive compilation time: AI编译器耗时长</li>
+<li>Observation and insights: buffer + <strong>loop</strong> + computation &mdash;&gt; data process pipeline(<strong>load A &amp; B</strong>, then compute C) &mdash;&gt; performance(the throughput of load-compute-store pipeline)</li>
+</ol>
+<p><strong>key:</strong> tile shape &amp; layout in the one-dimension memory space</p>
+<p><img loading="lazy" src="accesspattern.png" alt="img"  />
+</p>
+<h2 id="ch3system-design">Ch3.System Design<a hidden class="anchor" aria-hidden="true" href="#ch3system-design">#</a></h2>
+<p><img loading="lazy" src="system.png" alt="img"  />
+</p>
+<h3 id="31-tensor-expression-and-rtile">3.1 Tensor Expression and rTile<a hidden class="anchor" aria-hidden="true" href="#31-tensor-expression-and-rtile">#</a></h3>
+<p><img loading="lazy" src="rTile_shape.png" alt="img"  />
+</p>
+<p>rTile封装了：TE + 每个轴的Tile shape + padding inf &mdash;&gt; 静态推断出输入、输出shape</p>
+<p><strong>note:</strong> tile shape(逻辑形式) &amp; storage padding(物理布局) &mdash;&gt; 严格对齐底层硬件特征与Tensor Shape</p>
+<ol>
+<li><strong>Alignment with the hardware execution unit</strong>:</li>
+</ol>
+<p>tile shape 必须与硬件执行单元的并行度对齐（eg. GPU warp size 32*）</p>
+<ol start="2">
+<li><strong>Alignment with memory transaction</strong>:</li>
+</ol>
+<p>tile shape必须与内存事务长度保存一致，实现最优访存（eg. 行优先Tensor最内层shape是内存事务的倍数）</p>
+<ol start="3">
+<li><strong>Alignment with memory bank</strong>: 避免GPU memory bank conflict</li>
+</ol>
+<p>$$
+padding_size = (BL-N%(BL)+L\lceil{n/L}\rceil)%(BL)
+$$</p>
+<ol start="4">
+<li><strong>Alignment with tensor shape:</strong></li>
+</ol>
+<p>rTile shape应与输入的Tensor对齐，避免边界检查开销（避免较大的padding浪费计算，满足$\frac{S_i-N_i%S_i}{N_i} &lt;= \epsilon$时，进行padding）</p>
+<ol start="5">
+<li><strong>Deriving All rTiles:</strong></li>
+</ol>
+<p><img loading="lazy" src="derving.png" alt="img"  />
+</p>
+<ol start="6">
+<li><strong>calculating data reuse score</strong>:</li>
+</ol>
+<p><img loading="lazy" src="calculate.png" alt="img"  />
+</p>
+<p>更大的Si代表相同内存占用获得更大的内存流量。</p>
+<h3 id="32-tensor-program-construction">3.2 Tensor Program Construction<a hidden class="anchor" aria-hidden="true" href="#32-tensor-program-construction">#</a></h3>
+<ol>
+<li><strong>rTile program: Tensor Expression &mdash;&gt; hierarchy rTile data pipeline</strong></li>
+</ol>
+<p>每个内存级别定义特定的rTile &amp; 与该级别内存特性保持一致</p>
+<p><img loading="lazy" src="code1.png" alt="img"  />
+</p>
+<p><img loading="lazy" src="rollersample.png" alt="img"  />
+</p>
+<p>key: optimizer rProgram &mdash;&gt; max pipeline throughput(<strong>scale-up-then-scale-out</strong>)</p>
+<p>&lt;1&gt;the computation and memory movement should fully leverage the hardware features;&lt;2&gt;the computation and memory movement should fully leverage the hardware features;&lt;3&gt;there needs to be sufficient parallelism to leverage all the parallel execution units.</p>
+<ol start="2">
+<li><strong>Scaling up an rProgram</strong></li>
+</ol>
+<p><img loading="lazy" src="scaleup.png" alt="img"  />
+</p>
+<p>Roller专注构建正确的rTile shape最大化每级内存的吞吐量，依据数据重用分数。</p>
+<ol start="3">
+<li>
+<p><strong>Scaling out an rProgram（复制横扩）</strong></p>
+</li>
+<li>
+<p><strong>Small operator and irregular tensor shape</strong></p>
+</li>
+</ol>
+<h3 id="33-efficient-evaluation-of-an-rprogram">3.3 Efficient Evaluation of an rProgram<a hidden class="anchor" aria-hidden="true" href="#33-efficient-evaluation-of-an-rprogram">#</a></h3>
+<p>key: rProgram性能 &mdash;&gt; rTile性能(MemPerf &amp; MaxComputePerf &amp; etc.)</p>
+<ol>
+<li>HAL: Load, Store, Compute, getDeviceSpec, etc.</li>
+</ol>
+<p><img loading="lazy" src="HAL.png" alt="img"  />
+</p>
+<ol start="2">
+<li><strong>Micro performance model:</strong></li>
+</ol>
+<p>借助硬件抽象层，Roller可以轻松推导出rTile（和rProgram）的性能</p>
+<h2 id="ch4-implementation">Ch4. Implementation<a hidden class="anchor" aria-hidden="true" href="#ch4-implementation">#</a></h2>
+<ol>
+<li>
+<p>Code generation：原语基于TVM</p>
+</li>
+<li>
+<p>Tensor Padding：&lt;1&gt;apply padding in the upper layer memory(3.1.4);&lt;2&gt;storage padding基于TVM storage align原语(3.1.3)</p>
+</li>
+<li>
+<p>Performance Profiling</p>
+<p>a.	micro performance profiler(off-line): micro-benchmark生成内存带宽，计算吞吐量等硬件指标</p>
+<p>b.	kernel profiler(on-line) :profiles the fastest kernels among the top K rPrograms and is used for each compilation result if the K is larger than 1</p>
+</li>
+</ol>
+<h2 id="conclusion">Conclusion<a hidden class="anchor" aria-hidden="true" href="#conclusion">#</a></h2>
+<ol>
+<li>kernel计算&mdash;&gt; 数据移动data pipeline（rTile效率 &mdash;&gt; rProgram效率）(<strong>Note: rTile严格对齐</strong>)</li>
+<li>性能评价简单，更多基于硬件特性直接得出，无需复杂代价模型</li>
+<li>schedule扩展：横扩 &amp; 纵扩</li>
+</ol>
+
+
+        </div>
+
+        <footer class="post-footer">
+            
+<nav class="paginav">
+  <a class="prev" href="http://qiaolian9.github.io/posts/project/medseg/">
+    <span class="title">« </span>
+    <br>
+    <span>MedSeg</span>
+  </a>
+  <a class="next" href="http://qiaolian9.github.io/posts/learnblog/fusionstitch/">
+    <span class="title"> »</span>
+    <br>
+    <span>Fusionstitch</span>
+  </a>
+</nav>
+
+        </footer>
+    </div>
+
+<style>
+    .comments_details summary::marker {
+        font-size: 20px;
+        content: 'unroll';
+        color: var(--content);
+    }
+    .comments_details[open] summary::marker{
+        font-size: 20px;
+        content: 'close';
+        color: var(--content);
+    }
+</style>
+
+
+<div>
+    <details class="comments_details">
+        <summary style="cursor: pointer; margin: 50px 0 20px 0;width: 130px;">
+            <span style="font-size: 20px;color: var(--content);">...</span>
+        </summary>
+        <div id="tcomment"></div>
+    </details>
+    <script src="https://cdn.staticfile.org/twikoo/1.5.8/twikoo.all.min.js">
+    </script>
+    <script>
+        twikoo.init({
+            envId:  null ,
+        el: "#tcomment",
+            lang: 'zh-CN',
+            region:  null ,
+        path: window.TWIKOO_MAGIC_PATH||window.location.pathname,
+        })
+    </script>
+</div>
+</article>
+</main>
+
+<footer class="footer">
+    <span>
+        Copyright
+        &copy;
+        2023-2024
+        <a href="http://qiaolian9.github.io/" style="color:#939393;">Brocoli&#39;s Blog</a>
+        All Rights Reserved
+    </span>
+    <a href="https://beian.miit.gov.cn/" target="_blank" style="color:#939393;"></a>&nbsp;
+    
+    
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <span class="topInner">
+        <svg class="topSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+            <path d="M12 6H0l6-6z"/>
+        </svg>
+        <span id="read_progress"></span>
+    </span>
+</a>
+
+<script>
+    document.addEventListener('scroll', function (e) {
+        const readProgress = document.getElementById("read_progress");
+        const scrollHeight = document.documentElement.scrollHeight;
+        const clientHeight = document.documentElement.clientHeight;
+        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        readProgress.innerText = ((scrollTop / (scrollHeight - clientHeight)).toFixed(2) * 100).toFixed(0);
+    })
+</script>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+</script>
+<script>
+    let mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        (function() {
+            document.cookie = "change-themes" + "="+ escape ("false");
+        })()
+
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    });
+</script>
+
+<script>
+    document.body.addEventListener('copy', function (e) {
+        if (window.getSelection().toString() && window.getSelection().toString().length > 50) {
+            let clipboardData = e.clipboardData || window.clipboardData;
+            if (clipboardData) {
+                e.preventDefault();
+                let htmlData = window.getSelection().toString() +
+                    '\r\n\n————————————————\r\n' +
+                    '版权声明：本文为「'+"Brocoli's Blog"+'」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。' +
+                '\r\n原文链接：' + location.href;
+                let textData = window.getSelection().toString() +
+                    '\r\n\n————————————————\r\n' +
+                    '版权声明：本文为「'+"Brocoli's Blog"+'」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。' +
+                '\r\n原文链接：' + location.href;
+                clipboardData.setData('text/html', htmlData);
+                clipboardData.setData('text/plain', textData);
+            }
+        }
+    });
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                let text = codeblock.textContent +
+                    '\r\n————————————————\r\n' +
+                    '版权声明：本文为「'+"Brocoli's Blog"+'」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。' +
+                '\r\n原文链接：' + location.href;
+                navigator.clipboard.writeText(text);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) {}
+            selection.removeRange(range);
+        });
+
+        let language = codeblock.className.replaceAll("language-", "")
+        let macTool = document.createElement("div")
+        let macTool1 = document.createElement("div")
+        let macTool2 = document.createElement("div")
+        let macTool3 = document.createElement("div")
+        let languageType = document.createElement("div")
+        languageType.innerText = language
+        macTool.setAttribute('class', 'mac-tool')
+        macTool1.setAttribute('class', 'mac bb1')
+        macTool2.setAttribute('class', 'mac bb2')
+        macTool3.setAttribute('class', 'mac bb3')
+        languageType.setAttribute('class', 'language-type')
+        macTool.appendChild(macTool1)
+        macTool.appendChild(macTool2)
+        macTool.appendChild(macTool3)
+        macTool.appendChild(languageType)
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+            container.appendChild(macTool)
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+            container.appendChild(macTool)
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+            container.appendChild(macTool)
+        }
+    });
+</script>
+</body>
+
+</html>

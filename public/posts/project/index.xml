@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Project on Brocoli&#39;s Blog</title>
+    <link>http://qiaolian9.github.io/posts/project/</link>
+    <description>Recent content in Project on Brocoli&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 26 Feb 2024 02:23:09 +0800</lastBuildDate><atom:link href="http://qiaolian9.github.io/posts/project/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AICompiler</title>
+      <link>http://qiaolian9.github.io/posts/project/aicompiler/</link>
+      <pubDate>Mon, 04 Dec 2023 23:52:23 +0800</pubDate>
+      
+      <guid>http://qiaolian9.github.io/posts/project/aicompiler/</guid>
+      <description>Torch2Tensor 2023.3~2023.5 Torch nn.Module -&amp;gt; TVM Tensor program Github: https://github.com/qiaolian9/Torch2Tensor A easy tool for generating Tensor Program from Torch(besd on Torch FX &amp;amp; TVM Relax) Pruner 2023.5~2024.1 Key: Deep Learning Compiler, Tensor Optimization Pruner: An Efficient Cross-Platform Tensor Compiler with Dual Awareness URL:https://arxiv.org/abs/2402.02361 Github: https://github.com/qiaolian9/Pruner Tensor program optimization on Deep Learning Accelerators (DLAs) is critical for efficient model deployment. Although search-based Deep Learning Compilers (DLCs) have achieved significant performance gains compared to manual methods, they still suffer from the persistent challenges of low search efficiency and poor cross-platform adaptability. In this paper, we propose Pruner, following hardware/software co-design principles to hierarchically boost tensor program optimization. Pruner comprises two primary components: a Parameterized Static Analyzer (PSA) and a Pattern-aware Cost Model (PaCM). The former serves as a hardware-aware and formulaic performance analysis tool, guiding the pruning of the search space, while</description>
+    </item>
+    
+    <item>
+      <title>LLM Infer</title>
+      <link>http://qiaolian9.github.io/posts/project/llm_infer/</link>
+      <pubDate>Mon, 26 Feb 2024 02:23:09 +0800</pubDate>
+      
+      <guid>http://qiaolian9.github.io/posts/project/llm_infer/</guid>
+      <description>LLMs Inference LLMs for real-time chatting on your own Devices To do list: several LLMs; several Inference framwork(focus on quant strategies, infer efficiency, infer acc). webUI etc. Demo: ChatGLM3-6B in Nvidia Jetson Orin AGX(sm87)</description>
+    </item>
+    
+    <item>
+      <title>MedSeg</title>
+      <link>http://qiaolian9.github.io/posts/project/medseg/</link>
+      <pubDate>Mon, 04 Dec 2023 23:43:45 +0800</pubDate>
+      
+      <guid>http://qiaolian9.github.io/posts/project/medseg/</guid>
+      <description>FcTC-UNet 2021.11~2022.2 Fine-grained Combination of Transformer and CNN for Thoracic Organs Segmentation (accepted in EMBC22) URL: https://ieeexplore.ieee.org/abstract/document/9870880 PI-CAI 2022 Challenge URL: http://rumc-gcorg-p-public.s3.amazonaws.com/evaluation-supplementary/642/3057dc31-3a85-480f-8c6b-0da7d1327c48/Swangeese.pdf Github: https://github.com/Yukiya-Umimi/ITUNet-for-PICAI-2022-Challenge</description>
+    </item>
+    
+  </channel>
+</rss>
