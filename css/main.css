@@ -60,10 +60,124 @@ body {
     font-weight: bold;
 }
 
+/* news */
+.news {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
 
+.news h1 {
+    font-size: 24px;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+.new-header {
+    /* padding: 10px 0; */
+    display: list-item;
+}
+
+/* educations */
+.educations {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.educations h2 {
+    font-size: 24px;
+    display: inline-block;
+}
+
+.education-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.education-header img {
+    width: 100px;
+    height: 100px;
+    margin-right: 20px;
+    object-fit: cover;
+}
+
+.education-header .info {
+    flex: 1;
+}
+
+.education-header h1 {
+    font-size: 17px;
+    margin-top: 10px;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+    color: #333;
+}
+
+.education-header p {
+    font-size: 16px;
+    margin-top: 5px;
+}
+
+.education-header a {
+    display: inline-block;
+    color: #096879;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+
+
+/* interships */
+.interships {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.interships h2 {
+    font-size: 24px;
+    display: inline-block;
+}
+
+.intership-header {
+    display: flex;
+    align-items: center;
+}
+
+.intership-header img {
+    width: 100px;
+    height: 86px;
+    margin-right: 20px;
+    object-fit: cover;
+}
+
+.intership-header .info {
+    flex: 1;
+}
+
+.intership-header h1 {
+    font-size: 17px;
+    margin-top: 10px;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+    color: #333;
+}
+
+.intership-header p {
+    font-size: 16px;
+    margin-top: 5px;
+}
+
+
+/* publications */
 .publications {
     margin-top: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     padding: 10px 0;
     border-bottom: 1px solid #ddd;
 }
@@ -155,72 +269,5 @@ body {
 .publication-links a:hover {
     text-decoration: underline;
 }
-
-
-
-.work_interships {
-    margin-top: 10px;
-    margin-bottom: 20px;
-    padding: 10px 0;
-    border-bottom: 1px solid #ddd;
-}
-
-.work_interships h2 {
-    font-size: 24px;
-    display: inline-block;
-    margin-bottom: 10px;
-}
-
-.work_intership {
-    margin-bottom: 5px;
-    padding: 10px 0;
-}
-
-.work_intership h3 {
-    font-size: 17px;
-    margin-left: 5px;
-    margin-top: 1px;
-    border-bottom: 1px solid #ddd;
-}
-
-
-.work_intership-time {
-    font-size: 15px;
-    margin-top: 5px;
-    margin-left: 30px;
-    list-style-type: disc;
-    list-style-position: outside;
-    display: list-item;
-}
-
-.work_intership-Positions {
-    font-size: 15px;
-    margin-top: 5px;
-    margin-left: 30px;
-    list-style-type: disc;
-    list-style-position: outside;
-    display: list-item;
-}
-
-.work_intership-links {
-    margin-top: 5px;
-    margin-left: 30px;
-    list-style-type: disc;
-    list-style-position: outside;
-    display: list-item;
-}
-
-.work_intership-links a {
-    color: #0078ff;
-    text-decoration: none;
-    font-size: 14px;
-    margin-right: 10px;
-    display: inline-block;
-}
-
-.work_intership-links a:hover {
-    text-decoration: underline;
-}
-
 
 
