@@ -1,0 +1,226 @@
+/* Reset default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    padding: 40px;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.profile-header img {
+    width: 167px;
+    height: 250px;
+    /* border-radius: 50%; */
+    margin-right: 20px;
+    object-fit: cover;
+    /* border: 2px solid #0078ff; */
+}
+
+.profile-header .info {
+    flex: 1;
+}
+
+.profile-header h1 {
+    font-size: 28px;
+    /* color: #0078ff; */
+}
+
+.profile-header p {
+    font-size: 16px;
+    margin-top: 5px;
+}
+
+.profile-header a {
+    display: inline-block;
+    color: #096879;
+    text-decoration: none;
+    /* margin-right: 5px; */
+    font-weight: bold;
+}
+
+
+.publications {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.publications h2 {
+    font-size: 24px;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+.publication {
+    margin-bottom: 5px;
+    padding: 10px 0;
+}
+
+.publication h3 {
+    font-size: 17px;
+    margin-bottom: 5px;
+    border-bottom: 1px solid #ddd;
+}
+
+.publication p {
+    font-size: 14px;
+    /* color: #ad0707; */
+    list-style-position: inside;
+    /* margin-left: 10px; */
+}
+
+
+.publication-conf {
+    margin-top: 5px;
+    margin-left: 30px;
+    color: #ad0707;
+    list-style-type: disc;
+    list-style-position: outside;
+    display: list-item;
+}
+
+
+.publication-conf p {
+    font-size: 15px;
+    color: #ad0707;
+    list-style-position: inside;
+    /* margin-left: 10px; */
+}
+
+
+.publication-authors {
+    font-size: 15px;
+    margin-top: 5px;
+    margin-left: 30px;
+    list-style-type: disc;
+    list-style-position: outside;
+    display: list-item;
+}
+
+.publication-authors strong.highlight-author {
+    color: #ad0707 !important; /* 红色 */
+    font-weight: bold !important; /* 强制加粗 */
+    /* font-size: 16px; */
+}
+
+
+.publication-affis {
+    font-size: 15px;
+    margin-top: 5px;
+    margin-left: 30px;
+    list-style-type: disc;
+    list-style-position: outside;
+    display: list-item;
+}
+
+.publication-links {
+    margin-top: 5px;
+    margin-left: 30px;
+    list-style-type: disc;
+    list-style-position: outside;
+    display: list-item;
+}
+
+.publication-links a {
+    color: #0078ff;
+    text-decoration: none;
+    font-size: 14px;
+    margin-right: 10px;
+    display: inline-block;
+}
+
+.publication-links a:hover {
+    text-decoration: underline;
+}
+
+
+
+.work_interships {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.work_interships h2 {
+    font-size: 24px;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+.work_intership {
+    margin-bottom: 5px;
+    padding: 10px 0;
+}
+
+.work_intership h3 {
+    font-size: 17px;
+    margin-left: 5px;
+    margin-top: 1px;
+    border-bottom: 1px solid #ddd;
+}
+
+
+.work_intership-time {
+    font-size: 15px;
+    margin-top: 5px;
+    margin-left: 30px;
+    list-style-type: disc;
+    list-style-position: outside;
+    display: list-item;
+}
+
+.work_intership-Positions {
+    font-size: 15px;
+    margin-top: 5px;
+    margin-left: 30px;
+    list-style-type: disc;
+    list-style-position: outside;
+    display: list-item;
+}
+
+.work_intership-links {
+    margin-top: 5px;
+    margin-left: 30px;
+    list-style-type: disc;
+    list-style-position: outside;
+    display: list-item;
+}
+
+.work_intership-links a {
+    color: #0078ff;
+    text-decoration: none;
+    font-size: 14px;
+    margin-right: 10px;
+    display: inline-block;
+}
+
+.work_intership-links a:hover {
+    text-decoration: underline;
+}
+
+
+
